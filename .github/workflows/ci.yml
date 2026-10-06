@@ -1,0 +1,39 @@
+name: build-and-test
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  windows:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        powershell: ['7.2.24', '7.3.12', '7.4.20', '7.5.11', '7.6.6']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Build
+        shell: pwsh
+        run: ./scripts/Build.ps1 -Package
+      - name: Download pinned PowerShell and test
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TEST_VERSION: ${{ matrix.powershell }}
+        run: |
+          $pwsh = ./scripts/Get-TestPowerShell.ps1 -Version $env:TEST_VERSION
+          ./scripts/Test.ps1 -PowerShellPaths @($pwsh)
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: results-${{ matrix.powershell }}
+          path: |
+            artifacts/test-results.json
+            artifacts/pwsh-utf8-hook-1.0.0.zip
+            artifacts/SHA256SUMS.txt

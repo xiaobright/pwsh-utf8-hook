@@ -1,0 +1,7 @@
+[
+  { "version": "7.2.24", "sha256": "a1ccb6d8ad52f917470a136c3752af4465f261bcbe570cf44f52aa69ae6e867e" },
+  { "version": "7.3.12", "sha256": "c515c7c1b5bf1e3b5aa991274e89ea0daa8e8bd5ca08ad554adbc514e90005f4" },
+  { "version": "7.4.20", "sha256": "fb88cd3731847006b157978d6c0a426390d346696d91d1ed85b5e5eb88cb2d40" },
+  { "version": "7.5.11", "sha256": "75cdab18db9c8ac32f02e82149698166551e42d2a904da4b3a60fb5fcb3ad021" },
+  { "version": "7.6.6", "sha256": "02fe458be20493fbdf43f61ea20610b811ee6c738ab1676c61b9cfcd1a33c860" }
+]

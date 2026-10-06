@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>PwshUtf8Hook</AssemblyName>
+    <Description>Silent UTF-8 console initialization for PowerShell 7 on Windows.</Description>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+</Project>
