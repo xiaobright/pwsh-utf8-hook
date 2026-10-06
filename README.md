@@ -6,6 +6,12 @@ Make PowerShell 7 use UTF-8 for console input and output on Windows, including
 `pwsh -NoProfile` launched by agent tools. Keep the Windows system code page
 unchanged for older applications.
 
+This repository contains small encoding experiments. The default build and
+release ZIP cover PowerShell 7. A separate
+[Windows PowerShell 5.1 prototype](https://github.com/xiaobright/pwsh-utf8-hook/tree/main/research/windows-powershell51)
+includes its own DLL source, feasibility tests and findings; it has no installer
+and is not included in the PowerShell 7 package.
+
 A small, dependency-free `netstandard2.0` DLL uses the supported
 [.NET startup-hook mechanism](https://github.com/dotnet/runtime/blob/main/docs/design/features/host-startup-hook.md).
 It checks that the actual executable is `pwsh.exe`, then sets
@@ -63,7 +69,8 @@ powershell.exe -NoProfile -File .\Uninstall.ps1
 
 - Windows x64 PowerShell 7.2–7.6 are covered by the compatibility suite. The
   DLL is AnyCPU, but x86/ARM64 are not validated. See [compatibility](docs/compatibility.md).
-- No change to Windows PowerShell 5.1, `dotnet pwsh.dll`, or non-Windows shells.
+- The PowerShell 7 hook does not change Windows PowerShell 5.1, `dotnet pwsh.dll`,
+  or non-Windows shells.
 - Applications that clear the environment, disable startup hooks, or embed the
   PowerShell engine can bypass this mechanism. Later code can change encoding again.
 - It cannot convert existing GBK files or force a native program to emit UTF-8.

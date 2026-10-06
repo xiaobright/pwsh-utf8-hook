@@ -19,3 +19,12 @@ for byte-preserving native output redirection. Downloads are SHA-256 pinned in
 Keep local reports, package binaries, downloaded runtimes, and installation state
 out of Git. When reporting a failure, include PowerShell/.NET versions and launch
 mode, and remove personal paths and environment values from logs.
+
+## Windows PowerShell 5.1 experiment
+
+The independent [5.1 prototype](research/windows-powershell51/README.md) lives
+under `research/windows-powershell51`. It is not part of the main solution,
+PowerShell 7 installer, release ZIP or CI matrix. Its projects target .NET
+Framework 4.7.2; see that directory for build prerequisites and isolated tests.
+Keep experiments in their child processes and work directory, without persisting
+AppDomainManager settings or changing the system PowerShell installation.

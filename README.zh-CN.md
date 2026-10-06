@@ -4,6 +4,8 @@
 
 让 Windows 上的 PowerShell 7 在 `-NoProfile` 下也使用 UTF-8 控制台输入和输出，适用于 agent 工具。无需 profile，也无需开启可能影响老程序的系统全局 UTF-8。
 
+本仓库定位为小型编码实验。默认构建和发行 ZIP 对应 PowerShell 7；另有独立的 [Windows PowerShell 5.1 原型](https://github.com/xiaobright/pwsh-utf8-hook/tree/main/research/windows-powershell51)，包含单独的 DLL 源码、可复现测试及研究说明，没有安装器，也不混入 7 的安装包。
+
 实现是一个无第三方运行时依赖、面向 `netstandard2.0` 的小型 DLL。它使用 .NET 的 `DOTNET_STARTUP_HOOKS`，只在实际进程名为 `pwsh.exe` 时设置控制台编码；不改写命令参数，不打印启动消息，不设置 Python 环境变量。PowerShell 7 的 `$OutputEncoding` 本身已默认使用 UTF-8。
 
 ## 安装
@@ -39,7 +41,7 @@ powershell.exe -NoProfile -File .\Uninstall.ps1
 ## 范围与限制
 
 - 验证范围为 Windows x64 PowerShell 7.2–7.6；DLL 是 AnyCPU，但未验证 x86/ARM64。具体记录见[兼容性说明](docs/compatibility.md)。旧版进入测试矩阵不代表推荐安装已停止维护的版本。
-- 不处理 PowerShell 5.1、`dotnet pwsh.dll`、非 Windows shell，以及清理环境变量或禁用启动钩子的宿主。后续脚本仍可再次改变编码。
+- PowerShell 7 的 hook 不处理 PowerShell 5.1、`dotnet pwsh.dll`、非 Windows shell，以及清理环境变量或禁用启动钩子的宿主。后续脚本仍可再次改变编码。
 - 不会转换已有 GBK 文件，也不能强制所有外部程序输出 UTF-8；调用方仍应按 UTF-8 解码。共享控制台的其他程序可能受到控制台代码页变化影响。
 - 其他 .NET 程序也会加载 DLL，但会被立即跳过。**如果 DLL 丢失、无访问权限或损坏，运行时可能在进入钩子代码前就阻止应用启动。必须先撤销环境变量，再移除 DLL。** 未验证裁剪或特殊部署模式，必要时先使用进程作用域。
 
